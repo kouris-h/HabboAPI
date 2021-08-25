@@ -45,7 +45,7 @@ public abstract class FurniDetails {
                 ", description='" + description + '\'' +
                 ", furniline='" + furniline + '\'' +
                 ", adUrl='" + adUrl + '\'' +
-                ", enviroment='" + enviroment + '\'' +
+                ", enviroment='" + environment + '\'' +
                 ", id=" + id +
                 ", revision=" + revision +
                 ", offerId=" + offerId +
