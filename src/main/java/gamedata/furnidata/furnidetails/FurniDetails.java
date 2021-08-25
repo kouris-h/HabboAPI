@@ -6,7 +6,7 @@ import org.json.JSONObject;
 import java.awt.image.BufferedImage;
 
 public abstract class FurniDetails {
-    public final String className, category, name, description, furniline, adUrl, enviroment;
+    public final String className, category, name, description, furniline, adUrl, environment;
     public final int id, revision, offerId, rentOfferId;
     public final boolean isBC, isRare, isBuyOut, isRentBuyOut, isExcludedDynamic;
 
@@ -18,7 +18,7 @@ public abstract class FurniDetails {
         this.furniline = jsonObject.optString("furniline",null);
 
         this.adUrl = jsonObject.optString("adurl",null);
-        this.enviroment = jsonObject.optString("enviroment",null);
+        this.environment = jsonObject.optString("environment",null);
 
         this.id = jsonObject.getInt("id");
         this.revision = jsonObject.getInt("revision");
