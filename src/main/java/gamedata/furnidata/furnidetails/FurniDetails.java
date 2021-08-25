@@ -11,14 +11,14 @@ public abstract class FurniDetails {
     public final boolean isBC, isRare, isBuyOut, isRentBuyOut, isExcludedDynamic;
 
     public FurniDetails(JSONObject jsonObject) {
-        this.className = jsonObject.has("classname") ? jsonObject.getString("classname") : null;
-        this.category = jsonObject.has("category") ? jsonObject.getString("category") : null;
-        this.name = jsonObject.has("name") ? jsonObject.getString("name") : null;
-        this.description = jsonObject.has("description") ? jsonObject.getString("description") : null;
-        this.furniline = jsonObject.has("furniline") ? jsonObject.getString("furniline") : null;
+        this.className = jsonObject.optString("classname",null);
+        this.category = jsonObject.optString("category",null);
+        this.name = jsonObject.optString("name",null);
+        this.description = jsonObject.optString("description",null);
+        this.furniline = jsonObject.optString("furniline",null);
 
-        this.adUrl = jsonObject.has("adurl") ? jsonObject.getString("adurl") : null;
-        this.enviroment = jsonObject.has("enviroment") ? jsonObject.getString("enviroment") : null;
+        this.adUrl = jsonObject.optString("adurl",null);
+        this.enviroment = jsonObject.optString("enviroment",null);
 
         this.id = jsonObject.getInt("id");
         this.revision = jsonObject.getInt("revision");

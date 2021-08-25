@@ -5,7 +5,7 @@ import gamedata.Gamedata;
 import gamedata.furnidata.furnidetails.FloorItemDetails;
 import gamedata.furnidata.furnidetails.FurniDetails;
 import gamedata.furnidata.furnidetails.WallItemDetails;
-import hotel.Habbo;
+import hotel.Hotel;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -18,8 +18,8 @@ public class FurniData extends Gamedata {
     private final HashMap<String, FurniDetails> wallFurniByName = new HashMap<>();
     private final HashMap<Integer, FurniDetails> wallFurniById = new HashMap<>();
 
-    public FurniData(Habbo selectedHabbo) throws IOException {
-        super(selectedHabbo);
+    public FurniData(Hotel selectedHotel) throws IOException {
+        super(selectedHotel);
         System.out.println(System.currentTimeMillis());
         this.parseData(this.getJSONObject());
         System.out.println(System.currentTimeMillis());
@@ -27,7 +27,7 @@ public class FurniData extends Gamedata {
 
     @Override
     protected JSONObject getJSONObject() throws IOException {
-        return Fetcher.fetchJSONObject(String.format("%s/gamedata/furnidata_json/1", selectedHabbo.domain));
+        return Fetcher.fetchJSONObject(String.format("%sgamedata/furnidata_json/1", selectedHotel.domain));
     }
 
     @Override

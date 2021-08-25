@@ -1,14 +1,14 @@
 package gamedata;
 
-import hotel.Habbo;
+import hotel.Hotel;
 import org.json.JSONObject;
 import java.io.IOException;
 
 public abstract class Gamedata {
-    protected Habbo selectedHabbo;
+    protected Hotel selectedHotel;
 
-    public Gamedata(Habbo selectedHabbo) throws IOException {
-        this.selectedHabbo = selectedHabbo;
+    public Gamedata(Hotel selectedHotel) throws IOException {
+        this.selectedHotel = selectedHotel;
     }
 
     protected abstract JSONObject getJSONObject() throws IOException;

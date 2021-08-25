@@ -2,7 +2,7 @@ package gamedata.productdata;
 
 import fetch.Fetcher;
 import gamedata.Gamedata;
-import hotel.Habbo;
+import hotel.Hotel;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -13,15 +13,15 @@ import java.util.stream.Collectors;
 public class ProductData extends Gamedata {
     protected Map<String, ProductDetails> productDetailsByCode = new HashMap<>();
 
-    public ProductData(Habbo selectedHabbo) throws IOException {
-        super(selectedHabbo);
+    public ProductData(Hotel selectedHotel) throws IOException {
+        super(selectedHotel);
         this.parseData(this.getJSONObject());
         System.out.println(productDetailsByCode);
     }
 
     @Override
     protected JSONObject getJSONObject() throws IOException {
-        return Fetcher.fetchJSONObject(String.format("%s/gamedata/productdata_json/1", selectedHabbo.domain));
+        return Fetcher.fetchJSONObject(String.format("%sgamedata/productdata_json/1", selectedHotel.domain));
     }
 
     @Override
@@ -47,8 +47,8 @@ public class ProductData extends Gamedata {
 
         public ProductDetails(JSONObject jsonObject) {
             this.code = "" + jsonObject.get("code");
-            this.name = jsonObject.has("name") ? jsonObject.getString("name") : null;
-            this.description = jsonObject.has("description") ? jsonObject.getString("description") : null;
+            this.name = jsonObject.optString("name",null);
+            this.description = jsonObject.optString("description", null);
         }
 
         private String getCode() {

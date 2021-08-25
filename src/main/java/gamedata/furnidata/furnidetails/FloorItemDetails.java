@@ -16,7 +16,7 @@ public class FloorItemDetails extends FurniDetails {
     public FloorItemDetails(JSONObject jsonObject) {
         super(jsonObject);
 
-        this.customParams = jsonObject.has("customparams") ? jsonObject.getString("customparams") : null;
+        this.customParams = jsonObject.optString("customparams", null);
 
         this.xDim = jsonObject.getInt("xdim");
         this.yDim = jsonObject.getInt("ydim");

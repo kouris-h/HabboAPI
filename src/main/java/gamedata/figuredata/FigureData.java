@@ -2,7 +2,7 @@ package gamedata.figuredata;
 
 import fetch.Fetcher;
 import gamedata.Gamedata;
-import hotel.Habbo;
+import hotel.Hotel;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -14,13 +14,13 @@ public class FigureData extends Gamedata {
     private Map<Integer, ColorPalette> colorPalettesById;
 
     public FigureData() throws IOException {
-        super(Habbo.SANDBOX);
+        super(Hotel.SANDBOX);
         this.parseData(this.getJSONObject());
     }
 
     @Override
     protected JSONObject getJSONObject() throws IOException {
-        return Fetcher.fetchXMLAsJSONObject(String.format("%s/gamedata/figuredata/1", selectedHabbo.domain));
+        return Fetcher.fetchXMLAsJSONObject(String.format("%sgamedata/figuredata/1", selectedHotel.domain));
     }
 
     @Override
