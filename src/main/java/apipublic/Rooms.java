@@ -2,6 +2,8 @@ package apipublic;
 
 import fetch.Fetcher;
 import hotel.Hotel;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.awt.image.BufferedImage;
@@ -11,6 +13,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.Map;
 
 public class Rooms {
 
@@ -25,21 +28,41 @@ public class Rooms {
             JSONObject roomJson = Fetcher.fetchJSONObject(String.format("%sapi/public/rooms/%d", hotel.domain, id));
             if(roomJson.has("error")) return null;
 
-            return new Room(roomJson);
+            return new Room(hotel, roomJson);
         } catch (IOException e) {
+            return null;
+        }
+    }
+
+    /**
+     * Get rooms of a user
+     * @param hotel hotel to search
+     * @param uniqueUserId unique userId
+     * @return List<Room>
+     */
+    public static List<Room> getRoomsByUniqueUserId(Hotel hotel, String uniqueUserId) {
+        try {
+            JSONArray roomsJson = Fetcher.fetchJSONArray(String.format("%sapi/public/users/%s/rooms", hotel.domain, uniqueUserId));
+
+            return Room.parse(hotel, roomsJson);
+        } catch (IOException | JSONException e) {
             return null;
         }
     }
 
     public static class Room {
         public final int id, maximumVisitors, rating;
-        public final String name, description, ownerName, ownerUniqueId, thumbnailUrl, imageUrl, doormode, uniqueId;
+        public final String name, description, ownerName, ownerUniqueId, habboGroupId, thumbnailUrl, imageUrl, doormode, uniqueId;
         public final Date creationTime;
         public boolean showOwnerName, isPublicRoom;
 
         public final List<String> tags, categories;
 
-        private Room(JSONObject jsonObject) {
+        private final Hotel hotel;
+
+        private Room(Hotel hotel, JSONObject jsonObject) {
+            this.hotel = hotel;
+
             this.id = jsonObject.getInt("id");
             this.maximumVisitors = jsonObject.getInt("maximumVisitors");
             this.rating = jsonObject.getInt("rating");
@@ -48,6 +71,7 @@ public class Rooms {
             this.description = jsonObject.getString("description");
             this.ownerName = jsonObject.getString("ownerName");
             this.ownerUniqueId = jsonObject.getString("ownerUniqueId");
+            this.habboGroupId = jsonObject.optString("habboGroupId", null);
             this.thumbnailUrl = jsonObject.getString("thumbnailUrl");
             this.imageUrl = jsonObject.getString("imageUrl");
             this.doormode = jsonObject.getString("doorMode");
@@ -60,6 +84,18 @@ public class Rooms {
 
             this.tags = Collections.unmodifiableList(jsonObject.getJSONArray("tags").toList().stream().map(o -> (String) o).collect(Collectors.toList()));
             this.categories = Collections.unmodifiableList(jsonObject.getJSONArray("categories").toList().stream().map(o -> (String) o).collect(Collectors.toList()));
+        }
+
+        private static List<Room> parse(Hotel hotel, JSONArray jsonArray) {
+            return Collections.unmodifiableList(
+                    jsonArray
+                        .toList()
+                        .parallelStream()
+                        .map(o -> (Map<String, Object>) o)
+                        .map(JSONObject::new)
+                        .map(json -> new Room(hotel, json))
+                        .collect(Collectors.toList())
+            );
         }
 
         /**
@@ -76,6 +112,14 @@ public class Rooms {
          */
         public BufferedImage getImage() {
             return Fetcher.fetchImage(imageUrl);
+        }
+
+        /**
+         * Get group of room if present
+         * @return Group
+         */
+        public Groups.Group getGroup() {
+            return this.habboGroupId != null ? Groups.getGroupFromUniqueID(this.hotel, this.habboGroupId) : null;
         }
     }
 }

@@ -66,10 +66,20 @@ public class FurniData extends Gamedata {
         return floorFurniByClassName.getOrDefault(className, wallFurniByName.getOrDefault(className, null));
     }
 
+    /**
+     * Search the furnidata to find a FloorFurni which matches the given typeID
+     * @param typeID TypeID of the sought furni
+     * @return FurniDetails
+     */
     public FloorItemDetails getFloorItemDetailsByTypeID(int typeID) {
         return (FloorItemDetails) floorFurniById.getOrDefault(typeID, null);
     }
 
+    /**
+     * Search the furnidata to find a WallFurni which matches the given typeID
+     * @param typeID TypeID of the sought furni
+     * @return FurniDetails
+     */
     public WallItemDetails getWallItemDetailsByTypeID(int typeID) {
         return (WallItemDetails) wallFurniById.getOrDefault(typeID, null);
     }

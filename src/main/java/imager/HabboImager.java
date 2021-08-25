@@ -16,26 +16,33 @@ public class HabboImager {
         return Fetcher.fetchImage(String.format("https://www.habbo.com/habbo-imaging/badge/%s.gif", badgeCode));
     }
 
-    public static AvatarBuilder getAvatarImageBuilder() {
-        return new AvatarBuilder();
+    public static AvatarBuilder getAvatarImageBuilder(Hotel hotel, String username) {
+        return new AvatarBuilder().setUser(hotel, username);
     }
 
-    private static class AvatarBuilder {
+    public static AvatarBuilder getAvatarImageBuilder(String figure) {
+        return new AvatarBuilder().setFigure(figure);
+    }
+
+    public static class AvatarBuilder {
         private String user, figure;
         private Hotel hotel = Hotel.COM;
         private AvatarSize size = AvatarSize.MEDIUM;
         private AvatarAction action = AvatarAction.NOTHING;
+        private AvatarExpression expression = AvatarExpression.NORMAL;
         private HandItem handItem = HandItem.NOTHING;
         private AvatarDirection bodyDirection = AvatarDirection.SOUTHWEST, headDirection = AvatarDirection.SOUTHWEST;
 
-        public AvatarBuilder setUser(Hotel hotel, String user) {
+        private AvatarBuilder() {}
+
+        private AvatarBuilder setUser(Hotel hotel, String user) {
             this.figure = null;
             this.hotel = hotel;
             this.user = user;
             return this;
         }
 
-        public AvatarBuilder setFigure(String figure) {
+        private AvatarBuilder setFigure(String figure) {
             this.figure = figure;
             this.hotel = Hotel.COM;
             this.user = null;
@@ -63,6 +70,11 @@ public class HabboImager {
             return this;
         }
 
+        public AvatarBuilder setExpression(AvatarExpression expression) {
+            this.expression = expression;
+            return this;
+        }
+
         public AvatarBuilder setDrinking(HandItem handItem) {
             setAction(AvatarAction.DRINKING);
             this.handItem = handItem;
@@ -75,9 +87,18 @@ public class HabboImager {
             return this;
         }
 
-        //TODO build/getImage
+        public BufferedImage buildImage() {
+            String url = String.format("%shabbo-imaging/avatarimage?", hotel) + (user != null ? String.format("user=%s", user) : String.format("figure=%s", figure)) +
+                    String.format("&size=%s", size) +
+                    String.format("&direction=%s", bodyDirection) +
+                    String.format("&head_direction=%s", headDirection) +
+                    String.format("&action=%s", action + (handItem != HandItem.NOTHING ? String.format("=%s", handItem) : "")) +
+                    String.format("&gesture=%s", expression);
+            System.out.println(url);
+            return Fetcher.fetchImage(url);
+        }
 
-        public enum Expression {
+        public enum AvatarExpression {
             NORMAL ("nrm"),
             HAPPY ("sml"),
             SAD ("sad"),
@@ -88,7 +109,7 @@ public class HabboImager {
 
             private final String expression;
 
-            Expression(String expression) {
+            AvatarExpression(String expression) {
                 this.expression = expression;
             }
 
