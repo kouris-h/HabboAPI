@@ -20,9 +20,7 @@ public class FurniData extends Gamedata {
 
     public FurniData(Hotel selectedHotel) throws IOException {
         super(selectedHotel);
-        System.out.println(System.currentTimeMillis());
         this.parseData(this.getJSONObject());
-        System.out.println(System.currentTimeMillis());
     }
 
     @Override
@@ -59,6 +57,11 @@ public class FurniData extends Gamedata {
                 });
     }
 
+    /**
+     * Search the furnidata to find a furni which matches the given classname
+     * @param className Classname (unique) of the sought furni
+     * @return FurniDetails
+     */
     public FurniDetails getFurniDetailsByClassName(String className) {
         return floorFurniByClassName.getOrDefault(className, wallFurniByName.getOrDefault(className, null));
     }

@@ -16,7 +16,6 @@ public class ProductData extends Gamedata {
     public ProductData(Hotel selectedHotel) throws IOException {
         super(selectedHotel);
         this.parseData(this.getJSONObject());
-        System.out.println(productDetailsByCode);
     }
 
     @Override

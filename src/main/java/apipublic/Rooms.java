@@ -14,6 +14,12 @@ import java.util.stream.Collectors;
 
 public class Rooms {
 
+    /**
+     * Get information of a room based on the room id
+     * @param hotel hotel to search
+     * @param id room id
+     * @return Room
+     */
     public static Room getRoomById(Hotel hotel, int id) {
         try {
             JSONObject roomJson = Fetcher.fetchJSONObject(String.format("%sapi/public/rooms/%d", hotel.domain, id));
@@ -56,10 +62,18 @@ public class Rooms {
             this.categories = Collections.unmodifiableList(jsonObject.getJSONArray("categories").toList().stream().map(o -> (String) o).collect(Collectors.toList()));
         }
 
+        /**
+         * Get thumbnail of room if present
+         * @return Thumbnail as BufferedImage
+         */
         public BufferedImage getThumbnail() {
             return Fetcher.fetchImage(thumbnailUrl);
         }
 
+        /** 
+         * Get screenshot of room if present
+         * @return Image as BufferedImage
+         */
         public BufferedImage getImage() {
             return Fetcher.fetchImage(imageUrl);
         }

@@ -19,4 +19,9 @@ public enum Hotel {
         this.idPrefix = idPrefix;
         this.domain = domain;
     }
+
+    @Override
+    public String toString() {
+        return this.domain;
+    }
 }

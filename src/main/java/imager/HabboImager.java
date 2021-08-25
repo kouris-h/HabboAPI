@@ -149,7 +149,7 @@ public class HabboImager {
             EAST (5),
             NORTHEAST (6),
             NORTH (7),
-            NORTWEST (8);
+            NORTHWEST (8);
 
             private final int dir;
 
