@@ -12,7 +12,6 @@ public class FloorItemDetails extends FurniDetails {
     public final boolean canStandOn, canSitOn, canLayOn;
     public final List<String> partColors;
 
-
     public FloorItemDetails(JSONObject jsonObject) {
         super(jsonObject);
 

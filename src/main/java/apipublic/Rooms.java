@@ -40,7 +40,7 @@ public class Rooms {
      * @param uniqueUserId unique userId
      * @return List<Room>
      */
-    public static List<Room> getRoomsByUniqueUserId(Hotel hotel, String uniqueUserId) {
+    public static List<Room> getRoomsFromUniqueUserId(Hotel hotel, String uniqueUserId) {
         try {
             JSONArray roomsJson = Fetcher.fetchJSONArray(String.format("%sapi/public/users/%s/rooms", hotel.domain, uniqueUserId));
 
@@ -106,9 +106,9 @@ public class Rooms {
             return Fetcher.fetchImage(thumbnailUrl);
         }
 
-        /** 
+        /**
          * Get screenshot of room if present
-         * @return Image as BufferedImage
+         * @return Screenshot as BufferedImage
          */
         public BufferedImage getImage() {
             return Fetcher.fetchImage(imageUrl);
@@ -116,10 +116,18 @@ public class Rooms {
 
         /**
          * Get group of room if present
-         * @return Group
+         * @return Group object
          */
         public Groups.Group getGroup() {
             return this.habboGroupId != null ? Groups.getGroupFromUniqueID(this.hotel, this.habboGroupId) : null;
+        }
+
+        /**
+         * Get profile of room owner
+         * @return User object
+         */
+        public Users.User getOwnerProfile() {
+            return Users.getUserByUserUniqueId(hotel, ownerUniqueId);
         }
     }
 }

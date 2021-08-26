@@ -141,8 +141,29 @@ public class HabboImager {
         }
 
         public enum HandItem {
-            NOTHING
-            // TODO
+            NOTHING (0),
+            WATER (1),
+            MUG (6),
+            CARROT (2),
+            ICE_CREAM (3),
+            HABBO_COLA (5),
+            COCKTAIL (667),
+            LOVE_POTION (9),
+            ICE_CREAM_RADIOACTIVE (33),
+            JAPANESE_TEA (42),
+            TOMATO_JUICE (43),
+            WATER_RADIOACTIVE (44);
+
+            private final int value;
+
+            HandItem(int value) {
+                this.value = value;
+            }
+
+            @Override
+            public String toString() {
+                return String.valueOf(value);
+            }
         }
 
         public enum AvatarSize {

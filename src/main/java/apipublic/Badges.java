@@ -58,7 +58,7 @@ public class Badges {
             this.badgeIndex = jsonObject.getInt("badgeIndex");
         }
 
-        public static List<Badge> parse(JSONArray jsonArray) {
+        public static List<SelectedBadge> parseSelected(JSONArray jsonArray) {
             return Collections.unmodifiableList(
                     jsonArray
                         .toList()

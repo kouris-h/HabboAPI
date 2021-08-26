@@ -8,6 +8,8 @@ import org.json.JSONObject;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 
 public class Users {
@@ -18,36 +20,37 @@ public class Users {
      * @param username Username to find
      * @return User
      */
-    public static User getUserByName(Hotel hotel, String username) {
+    public static <T extends User> T getUserByName(Hotel hotel, String username) {
         try {
             JSONObject userJson = Fetcher.fetchJSONObject(String.format("%sapi/public/users?name=%s", hotel.domain, username));
             if(userJson.has("error")) return null;
-            return userJson.getBoolean("profileVisible") ? new PublicUser(hotel, userJson) : new PrivateUser(hotel, userJson);
+            return userJson.getBoolean("profileVisible") ? (T) new PublicUser(hotel, userJson) : (T) new PrivateUser(hotel, userJson);
         } catch (IOException | JSONException e) {
             return null;
         }
     }
 
     /**
-     * Find a user by his Unique Id
+     * Find a user by their Unique Id
      * @param hotel Hotel to search
      * @param userUniqueId User's unique Id
      * @return User
      */
-    public static User getUserByUserUniqueId(Hotel hotel, String userUniqueId) {
+    public static <T extends User> T getUserByUserUniqueId(Hotel hotel, String userUniqueId) {
         try {
             JSONObject userJson = Fetcher.fetchJSONObject(String.format("%sapi/public/users/%s", hotel.domain, userUniqueId));
             if(userJson.has("error")) return null;
-            return userJson.getBoolean("profileVisible") ? new PublicUser(hotel, userJson) : new PrivateUser(hotel, userJson);
+            return userJson.getBoolean("profileVisible") ? (T) new PublicUser(hotel, userJson) : (T) new PrivateUser(hotel, userJson);
         } catch (IOException | JSONException e) {
             return null;
         }
     }
 
     public abstract static class User {
-        public final String uniqueId, name, figureString, motto, memberSince;
+        public final String uniqueId, name, figureString, motto;
+        public final Date memberSince;
         public final boolean  profileVisible;
-        public final List<Badges.Badge> selectedBadges;
+        public final List<Badges.SelectedBadge> selectedBadges;
 
         protected final Hotel hotel;
 
@@ -58,10 +61,10 @@ public class Users {
             this.name = jsonObject.getString("name");
             this.figureString = jsonObject.getString("figureString");
             this.motto = jsonObject.getString("motto");
-            this.memberSince = jsonObject.getString("memberSince");
+            this.memberSince = Date.from(Instant.parse(jsonObject.getString("memberSince").substring(0, 22) + "Z"));
 
             this.profileVisible = jsonObject.getBoolean("profileVisible");
-            this.selectedBadges = Badges.SelectedBadge.parse(jsonObject.getJSONArray("selectedBadges"));
+            this.selectedBadges = Badges.SelectedBadge.parseSelected(jsonObject.getJSONArray("selectedBadges"));
         }
 
         /**
@@ -73,36 +76,35 @@ public class Users {
         }
     }
 
-    private static class PublicUser extends User {
-        public final String lastAccessTime;
+    public static class PublicUser extends User {
+        public final Date lastAccessTime;
         public final int currentLevel, currentLevelCompletePercent, totalExperience, starGemCount;
         public final boolean online;
 
-        public PublicUser(Hotel hotel, JSONObject userJson) {
-            super(hotel, userJson);
+        public PublicUser(Hotel hotel, JSONObject jsonObject) {
+            super(hotel, jsonObject);
 
-            this.lastAccessTime = userJson.getString("lastAccessTime");
+            this.lastAccessTime = Date.from(Instant.parse(jsonObject.getString("lastAccesTime").substring(0, 22) + "Z"));
 
-            this.currentLevel = userJson.getInt("currentLevel");
-            this.currentLevelCompletePercent = userJson.getInt("currentLevelCompletePercent");
-            this.totalExperience = userJson.getInt("totalExperience");
-            this.starGemCount = userJson.getInt("starGemCount");
+            this.currentLevel = jsonObject.getInt("currentLevel");
+            this.currentLevelCompletePercent = jsonObject.getInt("currentLevelCompletePercent");
+            this.totalExperience = jsonObject.getInt("totalExperience");
+            this.starGemCount = jsonObject.getInt("starGemCount");
 
-            this.online = userJson.getBoolean("online");
+            this.online = jsonObject.getBoolean("online");
         }
 
         /**
          * Get the list of groups the user has joined
-         * @return List<Groups.UserGroup>
+         * @return List of groups
          */
         public List<Groups.UserGroup> getGroups() {
             return Groups.getGroupsFromUserUniqueId(hotel, uniqueId);
         }
 
-
         /**
          * Get the list of the user's badges
-         * @return List<Badges.Badge>
+         * @return List of badges
          */
         public List<Badges.Badge> getBadges() {
             return Badges.getBadgesFromUserUniqueId(hotel, uniqueId);
@@ -110,7 +112,7 @@ public class Users {
 
         /**
          * Get the list of friends this user currently has
-         * @return List<Friends.Friend>
+         * @return List of friends
          */
         public List<Friends.Friend> getFriends() {
             return Friends.getFriendsFromUserUniqueID(hotel, uniqueId);
@@ -118,10 +120,18 @@ public class Users {
 
         /**
          * Get the list of rooms the user owns
-         * @return List<Rooms.Room>
+         * @return List of rooms
          */
         public List<Rooms.Room> getRooms() {
-            return Rooms.getRoomsByUniqueUserId(hotel, uniqueId);
+            return Rooms.getRoomsFromUniqueUserId(hotel, uniqueId);
+        }
+
+        /**
+         * Get the list of achievements the user completed
+         * @return List of achievements
+         */
+        public List<Achievements.UserAchievement> getAchievements() {
+            return Achievements.getAchievementsFromUser(hotel, uniqueId);
         }
     }
 
