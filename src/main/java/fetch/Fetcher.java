@@ -1,6 +1,5 @@
 package fetch;
 
-import gamedata.external_variables.ExternalVariables;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -13,10 +12,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.AbstractMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
-
-import static utils.Utils.distinctByKey;
 
 public class Fetcher {
     public static JSONObject fetchJSONObject(String url) throws IOException {
@@ -37,12 +38,16 @@ public class Fetcher {
     public static Map<String, String> fetchTxtAsMap(String url) throws IOException {
         System.out.println(url);
         return new BufferedReader(new InputStreamReader(new URL(url).openStream()))
-               .lines()
-               .filter(s -> !s.isEmpty())
-               .map(s -> s.split("="))
-               .map(ExternalVariables.ExternalVariable::new)
-               .filter(distinctByKey(ExternalVariables.ExternalVariable::getKey))
-               .collect(Collectors.toMap(ExternalVariables.ExternalVariable::getKey, ExternalVariables.ExternalVariable::getValue));
+                .lines()
+                .filter(l -> !l.isEmpty())
+                .map(l -> new AbstractMap.SimpleEntry<>(l.substring(0, l.indexOf("=")), l.substring(l.indexOf("=") + 1)))
+                .filter(distinctByKey(AbstractMap.SimpleEntry::getKey))
+                .collect(Collectors.toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
+    }
+
+    private  static <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor) {
+        Map<Object, Boolean> map = new ConcurrentHashMap<>();
+        return t -> map.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
     }
 
     public static BufferedImage fetchImage(String url) {

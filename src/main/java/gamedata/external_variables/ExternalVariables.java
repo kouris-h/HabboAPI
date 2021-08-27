@@ -9,41 +9,23 @@ import java.util.Map;
 
 public class ExternalVariables {
 
-    private static Map<String, String> fetch() throws IOException {
-       return Fetcher.fetchTxtAsMap(String.format("%sgamedata/external_variables/1", Hotel.SANDBOX.domain));
+    private static Map<String, String> fetch(Hotel hotel) throws IOException {
+       return Fetcher.fetchTxtAsMap(String.format("%sgamedata/external_variables/1", hotel.domain));
     }
 
-    public static Map<String, String> getAllExternalVariables() throws IOException {
-        return Collections.unmodifiableMap(fetch());
+    public static Map<String, String> getAllExternalVariables(Hotel hotel) throws IOException {
+        return Collections.unmodifiableMap(fetch(hotel));
     }
 
-    public static String getExternalVariable(String variable) throws IOException {
-        return fetch().getOrDefault(variable, null);
+    public static String getExternalVariable(Hotel hotel, String variable) throws IOException {
+        return fetch(hotel).getOrDefault(variable, null);
     }
 
-    public static String getProduction()  {
+    public static String getProduction(Hotel hotel)  {
         try {
-            return fetch().getOrDefault("flash.client.url", null);
+            return fetch(hotel).getOrDefault("flash.client.url", null);
         } catch (IOException e) {
             return null;
         }
-    }
-
-    public static class ExternalVariable {
-        private final String key, value;
-
-        public ExternalVariable(String[] a) {
-            this.key = a[0];
-            this.value = a.length>1? a[1]: "";
-        }
-
-        public String getKey() {
-            return this.key;
-        }
-
-        public String getValue() {
-            return this.value;
-        }
-
     }
 }
