@@ -9,7 +9,11 @@ import hotel.Hotel;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class FurniData extends Gamedata {
     private final HashMap<String, FurniDetails> floorFurniByClassName = new HashMap<>();
@@ -82,5 +86,13 @@ public class FurniData extends Gamedata {
      */
     public WallItemDetails getWallItemDetailsByTypeID(int typeID) {
         return (WallItemDetails) wallFurniById.getOrDefault(typeID, null);
+    }
+
+    public List<FloorItemDetails> getAllFloorItems() {
+        return Collections.unmodifiableList(floorFurniById.values().parallelStream().map(i -> (FloorItemDetails) i).collect(Collectors.toList()));
+    }
+
+    public List<WallItemDetails> getAllWallItems() {
+        return Collections.unmodifiableList(wallFurniById.values().parallelStream().map(i -> (WallItemDetails) i).collect(Collectors.toList()));
     }
 }
