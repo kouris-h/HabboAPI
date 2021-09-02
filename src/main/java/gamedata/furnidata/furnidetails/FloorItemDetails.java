@@ -40,17 +40,17 @@ public class FloorItemDetails extends FurniDetails {
 
     @Override
     public String toString() {
-        return "FloorItemDetails{" +
+        return "FloorItemDetails {\n" +
                 super.toString() +
-                ", customParams='" + customParams + '\'' +
-                ", xDim=" + xDim +
-                ", yDim=" + yDim +
-                ", defaultDir=" + defaultDir +
-                ", specialType=" + specialType +
-                ", canStandOn=" + canStandOn +
-                ", canSitOn=" + canSitOn +
-                ", canLayOn=" + canLayOn +
-                ", partColors=" + partColors +
-                '}';
+                ",\n\tcustomParams='" + customParams + "'" +
+                ",\n\txDim=" + xDim +
+                ",\n\tyDim=" + yDim +
+                ",\n\tdefaultDir=" + defaultDir +
+                ",\n\tspecialType=" + specialType +
+                ",\n\tcanStandOn=" + canStandOn +
+                ",\n\tcanSitOn=" + canSitOn +
+                ",\n\tcanLayOn=" + canLayOn +
+                ",\n\tpartColors=" + partColors +
+                "\n}";
     }
 }

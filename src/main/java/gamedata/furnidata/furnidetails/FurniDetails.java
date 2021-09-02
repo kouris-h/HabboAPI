@@ -38,23 +38,23 @@ public abstract class FurniDetails {
 
     @Override
     public String toString() {
-        return "FurniDetails{" +
-                "className='" + className + '\'' +
-                ", category='" + category + '\'' +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", furniline='" + furniline + '\'' +
-                ", adUrl='" + adUrl + '\'' +
-                ", enviroment='" + environment + '\'' +
-                ", id=" + id +
-                ", revision=" + revision +
-                ", offerId=" + offerId +
-                ", rentOfferId=" + rentOfferId +
-                ", isBC=" + isBC +
-                ", isRare=" + isRare +
-                ", isBuyOut=" + isBuyOut +
-                ", isRentBuyOut=" + isRentBuyOut +
-                ", isExcludedDynamic=" + isExcludedDynamic +
-                '}';
+        return "\tFurniDetails {" +
+                "\n\t\tclassName='" + className + '\'' +
+                ",\n\t\tcategory='" + category + '\'' +
+                ",\n\t\tname='" + name + '\'' +
+                ",\n\t\tdescription='" + description + '\'' +
+                ",\n\t\tfurniline='" + furniline + '\'' +
+                ",\n\t\tadUrl='" + adUrl + '\'' +
+                ",\n\t\tenviroment='" + environment + '\'' +
+                ",\n\t\tid=" + id +
+                ",\n\t\trevision=" + revision +
+                ",\n\t\tofferId=" + offerId +
+                ",\n\t\trentOfferId=" + rentOfferId +
+                ",\n\t\tisBC=" + isBC +
+                ",\n\t\tisRare=" + isRare +
+                ",\n\t\tisBuyOut=" + isBuyOut +
+                ",\n\t\tisRentBuyOut=" + isRentBuyOut +
+                ",\n\t\tisExcludedDynamic=" + isExcludedDynamic +
+                "\n\t}";
     }
 }

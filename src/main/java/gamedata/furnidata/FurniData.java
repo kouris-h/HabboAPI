@@ -66,8 +66,8 @@ public class FurniData extends Gamedata {
      * @param className Classname (unique) of the sought furni
      * @return FurniDetails
      */
-    public FurniDetails getFurniDetailsByClassName(String className) {
-        return floorFurniByClassName.getOrDefault(className, wallFurniByName.getOrDefault(className, null));
+    public <ItemDetails extends FurniDetails> ItemDetails getFurniDetailsByClassName(String className) {
+        return (ItemDetails) floorFurniByClassName.getOrDefault(className, wallFurniByName.getOrDefault(className, null));
     }
 
     /**
