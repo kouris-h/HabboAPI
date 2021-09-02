@@ -21,22 +21,18 @@ import java.util.stream.Collectors;
 
 public class Fetcher {
     public static JSONObject fetchJSONObject(String url) throws IOException {
-        System.out.println(url);
         return new JSONObject(IOUtils.toString(new URL(url).openStream(), StandardCharsets.UTF_8));
     }
 
     public static JSONArray fetchJSONArray(String url) throws IOException {
-        System.out.println(url);
         return new JSONArray(IOUtils.toString(new URL(url).openStream(), StandardCharsets.UTF_8));
     }
 
     public static JSONObject fetchXMLAsJSONObject(String url) throws IOException {
-        System.out.println(url);
         return XML.toJSONObject(IOUtils.toString(new URL(url).openStream(), StandardCharsets.UTF_8));
     }
 
     public static Map<String, String> fetchTxtAsMap(String url) throws IOException {
-        System.out.println(url);
         return new BufferedReader(new InputStreamReader(new URL(url).openStream()))
                 .lines()
                 .filter(l -> !l.isEmpty())
@@ -45,7 +41,7 @@ public class Fetcher {
                 .collect(Collectors.toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
     }
 
-    private  static <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor) {
+    private static <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor) {
         Map<Object, Boolean> map = new ConcurrentHashMap<>();
         return t -> map.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
     }
