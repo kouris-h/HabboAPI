@@ -18,6 +18,6 @@ public record Group(String id, String name, String description, String type, Str
 
     public static void main(String[] args) {
         User u = User.getByName(Hotel.NL, "WiredSpast");
-        System.out.println(u.getGroups().get(0));
+        System.out.println(u.getGroups());
     }
 }

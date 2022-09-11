@@ -4,17 +4,12 @@ import habbo.api.fetch.Fetcher;
 import habbo.api.hotel.Hotel;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Collections;
+import java.util.Set;
 
 public record User(String uniqueId, String name, String figureString, String motto, LocalDateTime memberSince,
                    LocalDateTime lastAccessTime, boolean profileVisible, boolean online, int currentLevel,
                    int currentLevelCompletePercent, int totalExperience, int starGemCount,
-                   List<SelectedBadge> selectedBadges) implements IUser {
-
-    public User {
-        selectedBadges = Collections.unmodifiableList(selectedBadges);
-    }
+                   Set<SelectedBadge> selectedBadges) implements IUser {
     public static User getByName(Hotel hotel, String name) {
         return Fetcher.fetchObject(String.format("%s/api/public/users?name=%s", hotel, name), User.class);
     }

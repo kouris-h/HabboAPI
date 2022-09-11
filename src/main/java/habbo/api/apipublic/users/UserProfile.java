@@ -4,9 +4,9 @@ import habbo.api.apipublic.rooms.Room;
 import habbo.api.fetch.Fetcher;
 import habbo.api.hotel.Hotel;
 
-import java.util.List;
+import java.util.Set;
 
-public record UserProfile(User user, List<UserGroup> groups, List<UserBadge> badges, List<UserFriend> friends, List<Room> rooms) {
+public record UserProfile(User user, Set<UserGroup> groups, Set<UserBadge> badges, Set<UserFriend> friends, Set<Room> rooms) {
     public static UserProfile of(String uniqueId) {
         return of(Hotel.fromId(uniqueId), uniqueId);
     }

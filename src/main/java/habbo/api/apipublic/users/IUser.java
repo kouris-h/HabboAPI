@@ -3,6 +3,7 @@ package habbo.api.apipublic.users;
 import habbo.api.apipublic.achievements.UserAchievement;
 
 import java.util.List;
+import java.util.Set;
 
 public interface IUser {
     String name();
@@ -10,19 +11,19 @@ public interface IUser {
     String uniqueId();
     boolean online();
 
-    default List<UserFriend> getFriends() {
+    default Set<UserFriend> getFriends() {
         return UserFriend.of(uniqueId());
     }
 
-    default List<UserGroup> getGroups() {
+    default Set<UserGroup> getGroups() {
         return UserGroup.of(uniqueId());
     }
 
-    default List<UserBadge> getBadges() {
+    default Set<UserBadge> getBadges() {
         return UserBadge.of(uniqueId());
     }
 
-    default List<UserAchievement> getAchievements() {
+    default Set<UserAchievement> getAchievements() {
         return UserAchievement.of(uniqueId());
     }
 }
