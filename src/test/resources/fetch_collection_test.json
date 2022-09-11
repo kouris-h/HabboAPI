@@ -1,0 +1,23 @@
+[
+  {
+  "name": "WiredSpast",
+  "age": 23,
+  "randomDateTime": "2018-11-30T23:16:08.000+0000",
+  "mainRole": "DEVELOPER",
+  "color": "84c3c1"
+  },
+  {
+    "name": "Kouris",
+    "age": 12,
+    "randomDateTime": "2010-01-17T06:14:50.000+0000",
+    "mainRole": "SCRIPTER",
+    "color": "3b2411"
+  },
+  {
+    "name": "SirJonasxx",
+    "age": 40,
+    "randomDateTime": "1982-08-02T13:44:27.000+0000",
+    "mainRole": "PLAYER",
+    "color": "620c6d"
+  }
+]
