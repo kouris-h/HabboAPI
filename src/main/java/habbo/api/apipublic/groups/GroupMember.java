@@ -5,10 +5,10 @@ import habbo.api.apipublic.users.User;
 import habbo.api.util.fetch.Fetcher;
 import habbo.api.hotel.Hotel;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Set;
 
-public record GroupMember(char gender, String motto, String habboFigure, Date memberSince, String uniqueId,
+public record GroupMember(char gender, String motto, String habboFigure, LocalDateTime memberSince, String uniqueId,
                           String name, boolean online, boolean isAdmin) implements IUser {
     public User getAsUser() {
         return User.getByUniqueId(uniqueId);

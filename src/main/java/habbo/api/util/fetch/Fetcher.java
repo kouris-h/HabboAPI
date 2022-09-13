@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.type.CollectionType;
 import java.awt.Color;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -26,6 +27,7 @@ public final class Fetcher {
     static {
         SimpleModule module = new SimpleModule();
         module.addDeserializer(LocalDateTime.class, LocalDateTimeDeserializer.INSTANCE);
+        module.addDeserializer(LocalDate.class, LocalDateDeserializer.INSTANCE);
         module.addDeserializer(Color.class, ColorDeserializer.INSTANCE);
         mapper.registerModule(module);
     }

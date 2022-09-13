@@ -90,7 +90,7 @@ public interface IRoom {
      * @return Set of achievements of the room owner
      */
     default Set<UserAchievement> getOwnerAchievements() {
-        return UserAchievement.of(uniqueId());
+        return UserAchievement.of(ownerUniqueId());
     }
 
     /**

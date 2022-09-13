@@ -6,7 +6,7 @@ import habbo.api.hotel.Hotel;
 import java.awt.Color;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
+import java.util.Set;
 
 /**
  * Implements common functions of {@link Group} and {@link habbo.api.apipublic.users.UserGroup}
@@ -44,7 +44,7 @@ public interface IGroup {
      * @habbo.api /api/public/groups/&lt;{@link #id()}&gt;/members;
      * @return Set of members of the group
      */
-    default List<GroupMember> getMembers() {
-        return Fetcher.fetchObjectList(String.format("%s/api/public/groups/%s/members", Hotel.fromId(id()), id()), GroupMember.class);
+    default Set<GroupMember> getMembers() {
+        return Fetcher.fetchObjectSet(String.format("%s/api/public/groups/%s/members", Hotel.fromId(id()), id()), GroupMember.class);
     }
 }
