@@ -1,4 +1,6 @@
 package habbo.api.apipublic.achievements;
 
-public record AchievementRequirement(int level, int requiredScore) {
-}
+/**
+ * Represents a requirement necessary to achieve an {@link Achievement}
+ */
+public record AchievementRequirement(int level, int requiredScore) {}

@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"habbo.api.apipublic.achievements"},{"l":"habbo.api.apipublic.groups"},{"l":"habbo.api.apipublic.rooms"},{"l":"habbo.api.apipublic.users"},{"l":"habbo.api.hotel"},{"l":"habbo.api.util.fetch"}];updateSearchResults();

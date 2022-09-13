@@ -1,7 +1,19 @@
 package habbo.api.apipublic.achievements;
 
+/**
+ * States of achievements
+ */
 public enum AchievementState {
+    /**
+     * The achievement is currently achievable
+     */
     ENABLED,
+    /**
+     * The achievement has been archived
+     */
     ARCHIVED,
-    OFF_SEASON;
+    /**
+     * The achievement is off season
+     */
+    OFF_SEASON
 }

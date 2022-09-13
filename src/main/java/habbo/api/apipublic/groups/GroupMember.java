@@ -2,7 +2,7 @@ package habbo.api.apipublic.groups;
 
 import habbo.api.apipublic.users.IUser;
 import habbo.api.apipublic.users.User;
-import habbo.api.fetch.Fetcher;
+import habbo.api.util.fetch.Fetcher;
 import habbo.api.hotel.Hotel;
 
 import java.util.Date;
